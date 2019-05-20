@@ -25,5 +25,7 @@ GraphMatrix_t *MBST(GraphMatrix_t*Graph);
 int number_of_edges(GraphMatrix_t *Graph);
 Edge_t *edges_of_graph(GraphMatrix_t* Graph,int m);
 
+int Bottleneck(GraphMatrix_t* Graph);
+int smallestDistance(int distances[],int visited[],int n);
 
 #endif

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "lista.h"
 #include "graph.h"
 
@@ -32,6 +33,70 @@ void print_graph(GraphMatrix_t* Graph){
 	}
 	printf("----------------------------------\n");
 }
+int Bottleneck(GraphMatrix_t* Graph){
+	//int visited[Graph->n_nodes];
+	
+	int distances[Graph->n_nodes];
+	int visited[Graph->n_nodes];
+	int PosVisitedNodes[Graph->n_nodes];
+
+	for(int i = 0; i < Graph->n_nodes;i++){
+		distances[i] = INT_MAX;
+		visited[i] = 0;
+	}
+	distances[0] = 0;
+	PosVisitedNodes[0] = -1;
+	for(int i = 0;i <Graph->n_nodes-1;i++){
+		int min = smallestDistance(distances,visited,Graph->n_nodes);
+		visited[min] = 1;
+		for(int j = 0;j < Graph->n_nodes;j++)
+			if(Graph->matrix[min][j] && visited[i] == 0 && Graph->matrix[min][j] < distances[j] ){
+				PosVisitedNodes[j] = min;
+				distances[j] = Graph->matrix[min][j];
+			}
+	}
+	int WeightEdgesMST[Graph->n_nodes-1];
+	for(int i = 0;i < Graph->n_nodes;i++){
+		WeightEdgesMST[i] = Graph->matrix[i][PosVisitedNodes[i]];
+	}
+	int max = -1;
+	for(int i = 0;i < Graph->n_nodes -1;i++){
+		if(WeightEdgesMST[i] > max)
+			max = WeightEdgesMST[i];
+	}
+	return max;
+}
+
+int smallestDistance(int distances[],int visited[],int n){
+	int min = INT_MAX;
+	int  min_pos; 
+  
+	for (int i = 0; i < n; i++) 
+    	if (visited[i] == 0 && distances[i] < min){
+			min = distances[i];
+        	min_pos = i; 
+    	}
+  
+	return min_pos; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Bfs_t *create_bfs(GraphMatrix_t *Graph,int node){
 	Bfs_t *BFS = (Bfs_t*)malloc(sizeof(Bfs_t));
 	BFS->bfs_tree = create_emptygraph(Graph->n_nodes);

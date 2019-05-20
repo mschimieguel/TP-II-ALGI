@@ -26,7 +26,7 @@ int main(int argc,char *argv[]){
 		
 	printf("----------------------------------\n");
 	GraphMatrix_t* G = create_graph(Edges,n,m);
-	
+	printf("%d\n",Bottleneck(G));
 	
 
 	return 0;
