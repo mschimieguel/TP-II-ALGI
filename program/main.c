@@ -20,15 +20,20 @@ int main(int argc,char *argv[]){
 	for(int i = 0;i < n;i++){
 		Cidades[i].id = i;
 		fscanf(ARQ_cidades,"%lf %lf",&Cidades[i].lat,&Cidades[i].lon);
-		//print_cidade(Cidades[i]);
 	}
-	Edge_t *Edges = Edges_K_graph(Cidades,n); //(Edge_t*)malloc(4*sizeof(Edge_t));
-		
-	printf("----------------------------------\n");
+	Edge_t *Edges = Edges_K_graph(Cidades,n); 
+	for(int i = 0;i < m;i++)
+		print_edge(Edges[i]);
+
 	GraphMatrix_t* G = create_graph(Edges,n,m);
+	print_graph(G);
 	printf("%d\n",Bottleneck(G));
 	
-
+	free(Edges);
+	for (int i = 0;i < n;i++)
+		free(G->matrix[i]);
+	free(G->matrix);
+	free(G);
 	return 0;
 }
 // for(int i = 0; i < m;i++)

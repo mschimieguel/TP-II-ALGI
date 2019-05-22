@@ -50,7 +50,7 @@ int Bottleneck(GraphMatrix_t* Graph){
 		int min = smallestDistance(distances,visited,Graph->n_nodes);
 		visited[min] = 1;
 		for(int j = 0;j < Graph->n_nodes;j++)
-			if(Graph->matrix[min][j] && visited[i] == 0 && Graph->matrix[min][j] < distances[j] ){
+			if(Graph->matrix[min][j] && visited[j] == 0 && Graph->matrix[min][j] < distances[j] ){
 				PosVisitedNodes[j] = min;
 				distances[j] = Graph->matrix[min][j];
 			}
