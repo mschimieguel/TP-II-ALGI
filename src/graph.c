@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
 #include "lista.h"
 #include "graph.h"
-
+#define MAX_DISTANCE 1000000
 GraphMatrix_t* create_emptygraph(int n){
 	GraphMatrix_t *to_return = (GraphMatrix_t *) malloc(sizeof(GraphMatrix_t));
 	to_return->n_nodes = n;
@@ -41,7 +40,7 @@ int Bottleneck(GraphMatrix_t* Graph){
 	int PosVisitedNodes[Graph->n_nodes];
 
 	for(int i = 0; i < Graph->n_nodes;i++){
-		distances[i] = INT_MAX;
+		distances[i] = MAX_DISTANCE;
 		visited[i] = 0;
 	}
 	distances[0] = 0;
@@ -56,8 +55,8 @@ int Bottleneck(GraphMatrix_t* Graph){
 			}
 	}
 	int WeightEdgesMST[Graph->n_nodes-1];
-	for(int i = 0;i < Graph->n_nodes;i++){
-		WeightEdgesMST[i] = Graph->matrix[i][PosVisitedNodes[i]];
+	for(int i = 1;i < Graph->n_nodes;i++){
+		WeightEdgesMST[i-1] = Graph->matrix[PosVisitedNodes[i]][i];
 	}
 	int max = -1;
 	for(int i = 0;i < Graph->n_nodes -1;i++){
@@ -68,7 +67,7 @@ int Bottleneck(GraphMatrix_t* Graph){
 }
 
 int smallestDistance(int distances[],int visited[],int n){
-	int min = INT_MAX;
+	int min = MAX_DISTANCE;
 	int  min_pos; 
   
 	for (int i = 0; i < n; i++) 
